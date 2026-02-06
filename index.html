@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Be My Valentine ❤️</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #ff4e8d, #ff9a9e);
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 400px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    #yesBtn {
+      background-color: #00ff99;
+      color: black;
+    }
+
+    #noBtn {
+      background-color: #ff3333;
+      color: white;
+      position: absolute;
+    }
+
+    .popup {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .popup-content {
+      background: white;
+      color: black;
+      padding: 25px;
+      border-radius: 15px;
+      width: 85%;
+      max-width: 350px;
+    }
+
+    .popup-content h2 {
+      margin-bottom: 15px;
+    }
+
+    .option-btn {
+      width: 100%;
+      margin: 8px 0;
+      background: #ff4e8d;
+      color: white;
+    }
+
+    input {
+      padding: 12px;
+      width: 90%;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+    }
+
+    .hint {
+      font-size: 0.9rem;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Will you be my Valentine? 💖</h1>
+  <button id="yesBtn">YES 💘</button>
+  <button id="noBtn">NO 😒</button>
+</div>
+
+<!-- DATE POPUP -->
+<div class="popup" id="datePopup">
+  <div class="popup-content">
+    <h2>Choose our date 💕</h2>
+    <button class="option-btn" onclick="openPassword()">☕ Coffee Date</button>
+    <button class="option-btn" onclick="openPassword()">🎬 Movie Theatre</button>
+    <button class="option-btn" onclick="openPassword()">🍽️ Dinner Date</button>
+  </div>
+</div>
+
+<!-- PASSWORD POPUP -->
+<div class="popup" id="passwordPopup">
+  <div class="popup-content">
+    <h2>Enter the password 🔐</h2>
+    <input type="text" id="passwordInput" placeholder="Password">
+    <div class="hint">Hint: Your boyfriend’s name ❤️</div>
+    <br><br>
+    <button class="option-btn" onclick="checkPassword()">Unlock 💖</button>
+  </div>
+</div>
+
+<!-- FINAL MESSAGE -->
+<div class="popup" id="finalPopup">
+  <div class="popup-content">
+    <h2>My Love 💌</h2>
+    <p>
+      From the day you came into my life, everything became brighter.  
+      I don’t need a special day to love you, but today I want to ask you properly…  
+      Will you always be mine? ❤️  
+      Happy Valentine’s Day 💖
+    </p>
+  </div>
+</div>
+
+<script>
+  const noBtn = document.getElementById("noBtn");
+
+  noBtn.addEventListener("mouseover", moveButton);
+  noBtn.addEventListener("click", moveButton);
+
+  function moveButton() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  document.getElementById("yesBtn").onclick = function () {
+    document.getElementById("datePopup").style.display = "flex";
+  };
+
+  function openPassword() {
+    document.getElementById("datePopup").style.display = "none";
+    document.getElementById("passwordPopup").style.display = "flex";
+  }
+
+  function checkPassword() {
+    const password = document.getElementById("passwordInput").value.toLowerCase();
+    const correctPassword = "shivam"; // 👈 CHANGE THIS TO YOUR NAME
+
+    if (password === correctPassword) {
+      document.getElementById("passwordPopup").style.display = "none";
+      document.getElementById("finalPopup").style.display = "flex";
+    } else {
+      alert("Wrong password 😜 Try again!");
+    }
+  }
+</script>
+
+</body>
+</html>
