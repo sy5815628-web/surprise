@@ -215,18 +215,39 @@ function showTeddy(){
   document.getElementById("finalPopup").style.display = "flex";
 
   box.innerHTML = `
-    <h3>You chose: ${selectedChoice}</h3>
-    <p>Date: ${selectedDate}</p>
-    <img src="https://i.imgur.com/2DhmtJ4.png">
-    <img src="https://i.imgur.com/Q6aZlme.png">
+    <h3>Thank you for choosing ${selectedChoice} 💙</h3>
+    <p>This already made me smile 😊</p>
+
+    <div style="display:flex;justify-content:center;gap:10px;">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616408.png" width="120">
+      <img src="https://cdn-icons-png.flaticon.com/512/616/616430.png" width="120">
+    </div>
   `;
 
   setTimeout(showArmy, 5000);
 }
 
+
 function showArmy(){
   const box = document.getElementById("finalContent");
 
+  box.innerHTML = `
+    <div class="fade">
+      <img src="https://cdn-icons-png.flaticon.com/512/3048/3048122.png" width="140"><br><br>
+      <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" width="140"><br><br>
+
+      <p>
+        Two strong souls.<br>
+        One beautiful story 💙<br><br>
+
+        No matter where life takes us —  
+        I’ll always stand by you.<br><br>
+
+        Happy Valentine’s Day 🇮🇳💙
+      </p>
+    </div>
+  `;
+}
   box.innerHTML = `
     <img src="https://i.imgur.com/Yz2XG5N.png"><br>
     <img src="https://i.imgur.com/3GvwNBf.png"><br><br>
