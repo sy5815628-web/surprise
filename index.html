@@ -3,70 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Be My Valentine ❤️</title>
+  <title>Be My Valentine 💙</title>
 
   <style>
     body {
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #ff4e8d, #ff9a9e);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       text-align: center;
-      color: white;
+      color: #ffffff;
     }
 
     .container {
       width: 90%;
-      max-width: 400px;
+      max-width: 420px;
     }
 
     h1 {
-      font-size: 2rem;
+      font-size: 2.1rem;
       margin-bottom: 30px;
     }
 
     button {
-      padding: 15px 30px;
-      font-size: 1.1rem;
+      padding: 14px 30px;
+      font-size: 1.05rem;
       border: none;
       border-radius: 30px;
       cursor: pointer;
       margin: 10px;
+      transition: transform 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
     }
 
     #yesBtn {
-      background-color: #00ff99;
-      color: black;
+      background-color: #4dd0e1;
+      color: #002b36;
     }
 
     #noBtn {
-      background-color: #ff3333;
+      background-color: #1565c0;
       color: white;
       position: absolute;
     }
 
     .popup {
       position: fixed;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      background: rgba(0,0,0,0.8);
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
       display: none;
       align-items: center;
       justify-content: center;
     }
 
     .popup-content {
-      background: white;
-      color: black;
+      background: #e3f2fd;
+      color: #0d47a1;
       padding: 25px;
-      border-radius: 15px;
+      border-radius: 18px;
       width: 85%;
-      max-width: 350px;
+      max-width: 360px;
     }
 
     .popup-content h2 {
@@ -76,7 +78,7 @@
     .option-btn {
       width: 100%;
       margin: 8px 0;
-      background: #ff4e8d;
+      background: #1e88e5;
       color: white;
     }
 
@@ -84,13 +86,13 @@
       padding: 12px;
       width: 90%;
       margin: 10px 0;
-      border-radius: 10px;
-      border: 1px solid #ccc;
+      border-radius: 12px;
+      border: 1px solid #90caf9;
     }
 
     .hint {
-      font-size: 0.9rem;
-      color: gray;
+      font-size: 0.85rem;
+      color: #546e7a;
     }
   </style>
 </head>
@@ -98,76 +100,86 @@
 <body>
 
 <div class="container">
-  <h1>Will you be my Valentine? 💖</h1>
-  <button id="yesBtn">YES 💘</button>
-  <button id="noBtn">NO 😒</button>
+  <h1>Will you be my Valentine? 💙</h1>
+  <button id="yesBtn">YES 💫</button>
+  <button id="noBtn">NO 🙈</button>
 </div>
 
-<!-- DATE POPUP -->
+<!-- DATE CHOICE POPUP -->
 <div class="popup" id="datePopup">
   <div class="popup-content">
-    <h2>Choose our date 💕</h2>
-    <button class="option-btn" onclick="openPassword()">☕ Coffee Date</button>
-    <button class="option-btn" onclick="openPassword()">🎬 Movie Theatre</button>
-    <button class="option-btn" onclick="openPassword()">🍽️ Dinner Date</button>
+    <h2>Pick our date 💕</h2>
+    <button class="option-btn" onclick="selectDate('Coffee & long talks ☕')">
+      ☕ Coffee & Long Talks
+    </button>
+    <button class="option-btn" onclick="selectDate('Movie together 🎬')">
+      🎬 Movie
+    </button>
+    <button class="option-btn" onclick="selectDate('Dinner & stargazing 🌌')">
+      🍽️ Dinner & Stargazing
+    </button>
+    
   </div>
 </div>
 
 <!-- PASSWORD POPUP -->
 <div class="popup" id="passwordPopup">
   <div class="popup-content">
-    <h2>Enter the password 🔐</h2>
-    <input type="text" id="passwordInput" placeholder="Password">
-    <div class="hint">Hint: Your boyfriend’s name ❤️</div>
+    <h2>One last step 🔐</h2>
+    <input type="text" id="passwordInput" placeholder="Enter password">
+    <div class="hint">Hint: the name of the guy who loves you the most 💙</div>
     <br><br>
-    <button class="option-btn" onclick="checkPassword()">Unlock 💖</button>
+    <button class="option-btn" onclick="checkPassword()">Unlock 💙</button>
   </div>
 </div>
 
 <!-- FINAL MESSAGE -->
 <div class="popup" id="finalPopup">
   <div class="popup-content">
-    <h2>My Love 💌</h2>
-    <p>
-      From the day you came into my life, everything became brighter.  
-      I don’t need a special day to love you, but today I want to ask you properly…  
-      Will you always be mine? ❤️  
-      Happy Valentine’s Day 💖
-    </p>
+    <h2>For You 💌</h2>
+    <p id="finalMessage"></p>
   </div>
 </div>
 
 <script>
   const noBtn = document.getElementById("noBtn");
+  let chosenDate = "";
 
   noBtn.addEventListener("mouseover", moveButton);
   noBtn.addEventListener("click", moveButton);
 
   function moveButton() {
-    const x = Math.random() * (window.innerWidth - 100);
-    const y = Math.random() * (window.innerHeight - 50);
+    const x = Math.random() * (window.innerWidth - 120);
+    const y = Math.random() * (window.innerHeight - 60);
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   }
 
-  document.getElementById("yesBtn").onclick = function () {
+  document.getElementById("yesBtn").onclick = () => {
     document.getElementById("datePopup").style.display = "flex";
   };
 
-  function openPassword() {
+  function selectDate(date) {
+    chosenDate = date;
     document.getElementById("datePopup").style.display = "none";
     document.getElementById("passwordPopup").style.display = "flex";
   }
 
   function checkPassword() {
-    const password = document.getElementById("passwordInput").value.toLowerCase();
-    const correctPassword = "shivam"; // 👈 CHANGE THIS TO YOUR NAME
+    const input = document.getElementById("passwordInput").value.toLowerCase();
+    const correctPassword = "shivam"; // 🔁 CHANGE THIS
 
-    if (password === correctPassword) {
+    if (input === correctPassword) {
       document.getElementById("passwordPopup").style.display = "none";
       document.getElementById("finalPopup").style.display = "flex";
+
+      document.getElementById("finalMessage").innerHTML =
+        `You choosing <b>${chosenDate}</b> already made my day 💙<br><br>
+         I don’t promise perfection, but I promise effort, honesty, laughter,
+         and a heart that always chooses you.<br><br>
+         Happy Valentine’s Day 💫`;
     } else {
-      alert("Wrong password 😜 Try again!");
+      alert("Oops 😜 Try again!");
     }
   }
 </script>
