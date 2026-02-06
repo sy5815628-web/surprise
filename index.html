@@ -142,6 +142,7 @@ img {
 <script>
 const noBtn = document.getElementById("noBtn");
 let selectedChoice = "";
+let selectedDate = "";
 
 noBtn.addEventListener("mouseover", moveNo);
 noBtn.addEventListener("click", moveNo);
@@ -157,14 +158,41 @@ document.getElementById("yesBtn").onclick = () => {
 
 function choose(choice){
   selectedChoice = choice;
+
+  if(choice === "Long Drive"){
+    selectedDate = document.getElementById("driveDate").value;
+    if(!selectedDate){
+      alert("Please choose a date 🚗📅");
+      return;
+    }
+  }
+
+  if(choice === "Date"){
+    selectedDate = document.getElementById("dateDate").value;
+    if(!selectedDate){
+      alert("Please choose a date ❤️📅");
+      return;
+    }
+  }
+
+  if(choice === "Just Talking"){
+    selectedDate = "No date needed 💬";
+  }
+
   document.getElementById("choicePopup").style.display = "none";
-  document.getElementById("askPopup").style.display = "flex";
+
+  // THANK YOU MESSAGE
+  setTimeout(() => {
+    alert("Thank you for choosing 💙");
+    document.getElementById("askPopup").style.display = "flex";
+  }, 300);
 }
 
 function wantSurprise(answer){
   document.getElementById("askPopup").style.display = "none";
+
   if(!answer){
-    alert("Ooh shit 😭 you missed the chance!");
+    alert("Ooh shit 😭 you missed the chance");
   } else {
     document.getElementById("passwordPopup").style.display = "flex";
   }
@@ -172,13 +200,13 @@ function wantSurprise(answer){
 
 function checkPassword(){
   const input = document.getElementById("passwordInput").value.toLowerCase();
-  const correct = "hername"; // 🔴 CHANGE THIS
+  const correct = "Shivam"; // 🔴 CHANGE THIS
 
   if(input === correct){
     document.getElementById("passwordPopup").style.display = "none";
     showTeddy();
   } else {
-    alert("Wrong password 😜");
+    alert("Wrong password 😜 Try again");
   }
 }
 
@@ -187,7 +215,8 @@ function showTeddy(){
   document.getElementById("finalPopup").style.display = "flex";
 
   box.innerHTML = `
-    <h3>You chose: ${selectedChoice} 💙</h3>
+    <h3>You chose: ${selectedChoice}</h3>
+    <p>Date: ${selectedDate}</p>
     <img src="https://i.imgur.com/2DhmtJ4.png">
     <img src="https://i.imgur.com/Q6aZlme.png">
   `;
@@ -202,13 +231,15 @@ function showArmy(){
     <img src="https://i.imgur.com/Yz2XG5N.png"><br>
     <img src="https://i.imgur.com/3GvwNBf.png"><br><br>
     <p>
-      No matter where life takes us —  
-      I choose you, every single time 💙  
-      Happy Valentine’s Day 🇮🇳
+      Thank you for choosing me 💙<br><br>
+      No matter the plan — long drive, date, or just talking —  
+      my favorite place will always be with you.<br><br>
+      Happy Valentine’s Day 🇮🇳💙
     </p>
   `;
 }
 </script>
+
 
 </body>
 </html>
