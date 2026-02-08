@@ -54,11 +54,7 @@ body{
   color:white;
 }
 
-.error{
-  margin-top:8px;
-  color:red;
-  font-size:14px;
-}
+.error{margin-top:8px;color:red;font-size:14px;}
 
 /* ================= INTRO ================= */
 #intro{
@@ -80,7 +76,6 @@ body{
   padding:20px 30px;
   border:2px solid #0d47a1;
   border-radius:18px;
-  animation:slideIn 1s ease forwards;
 }
 
 #textBox span{
@@ -88,45 +83,21 @@ body{
   transition:transform 1.2s ease, opacity 1.2s ease;
 }
 
-@keyframes slideIn{
-  from{transform:translateX(-120%);}
-  to{transform:translateX(0);}
-}
-
-/* ================= BOX BLAST ================= */
-.boxBlast{
-  animation:boxExplode 1s ease forwards;
-}
-
-@keyframes boxExplode{
-  0%{transform:scale(1);opacity:1;}
-  60%{transform:scale(1.5) rotate(10deg);opacity:0.7;}
-  100%{transform:scale(3) rotate(25deg);opacity:0;}
-}
-
 /* ================= CLOUD ================= */
 #cloud{
   position:fixed;
   inset:0;
   display:none;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 45%),
-    radial-gradient(circle at 70% 50%, rgba(255,255,255,0.08), transparent 55%),
-    linear-gradient(135deg,#020617,#0f172a,#020617);
-  backdrop-filter:blur(14px);
+  background:linear-gradient(135deg,#020617,#0f172a,#020617);
   z-index:4;
-  pointer-events:none;
 }
 
 .cloudClear{
-  animation:clearCloud 9s ease forwards;
+  animation:clearCloud 8s ease forwards;
 }
 
 @keyframes clearCloud{
-  0%{opacity:1;}
-  40%{opacity:0.9;}
-  70%{opacity:0.5;}
-  100%{opacity:0;}
+  to{opacity:0;}
 }
 
 /* ================= GALLERY ================= */
@@ -136,40 +107,22 @@ body{
   display:none;
   justify-content:center;
   align-items:center;
-  background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
+  background:#90caf9;
   z-index:1;
-  opacity:0;
-  transition:opacity 4s ease;
 }
 
-#gallery.show{opacity:1;}
-
 .photoBox{
-  width:90%;
-  max-width:360px;
-  background:#e3f2fd;
+  background:white;
   padding:15px;
-  border-radius:18px;
+  border-radius:16px;
+  width:90%;
+  max-width:350px;
   text-align:center;
 }
 
 .photoBox img{
   width:100%;
-  border-radius:14px;
-}
-
-.photoBox p{
-  margin-top:10px;
-  color:#0d47a1;
-}
-
-.photoBox button{
-  margin-top:12px;
-  padding:10px 25px;
-  border:none;
-  border-radius:25px;
-  background:#1976d2;
-  color:white;
+  border-radius:12px;
 }
 
 /* ================= STAGE 2 ================= */
@@ -193,13 +146,13 @@ body{
 }
 
 #stage2 button{
-  margin:8px;
-  padding:12px 18px;
+  margin:10px;
+  padding:12px 20px;
   border:none;
   border-radius:25px;
   background:#1976d2;
   color:white;
-  position:relative;
+  position:absolute;
 }
 
 #options,#calendarBox,#thanksBox{display:none;}
@@ -220,37 +173,27 @@ body{
   color:white;
   font-size:1.5rem;
   z-index:20;
-  animation:closeAnim 3s ease forwards;
-}
-
-@keyframes closeAnim{
-  from{opacity:0;}
-  to{opacity:1;}
 }
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD -->
 <div id="passwordPage">
   <div class="card">
     <h2>Enter Password 🔐</h2>
-    <input id="password" type="tel" placeholder="DDMMYYYY">
+    <input id="password" type="tel">
     <button onclick="checkPassword()">Enter</button>
     <div id="error" class="error"></div>
   </div>
 </div>
 
-<!-- INTRO -->
 <div id="intro">
   <div id="textBox"></div>
 </div>
 
-<!-- CLOUD -->
 <div id="cloud"></div>
 
-<!-- GALLERY -->
 <div id="gallery">
   <div class="photoBox">
     <img id="photo">
@@ -259,20 +202,14 @@ body{
   </div>
 </div>
 
-<!-- STAGE 2 -->
 <div id="stage2">
   <div class="box">
     <h2>Would you like to go on a date with me? 💙</h2>
-
-    <div id="yesNo">
-      <button id="yesBtn">YES 😍</button>
-      <button id="noBtn">NO 😜</button>
-    </div>
+    <button id="yesBtn">YES 😍</button>
+    <button id="noBtn">NO 😜</button>
 
     <div id="options">
-      <button onclick="chooseOption('Coffee')">☕ Coffee Date</button>
-      <button onclick="chooseOption('Drive')">🚗 Long Drive</button>
-      <button onclick="chooseOption('Lunch')">🍽️ Lunch Date</button>
+      <button onclick="chooseOption()">☕ Coffee / 🚗 Drive / 🍽️ Lunch</button>
     </div>
 
     <div id="calendarBox">
@@ -287,23 +224,18 @@ body{
   </div>
 </div>
 
-<!-- CLOSE -->
 <div id="closeScreen">
   See you next time 💙
 </div>
 
 <script>
-/* PASSWORD */
 function checkPassword(){
-  if(password.value.replace(/\s+/g,"")==="21012025"){
+  if(password.value==="21012025"){
     passwordPage.style.display="none";
     startIntro();
-  }else{
-    error.innerText="Wrong password 😶";
-  }
+  }else error.innerText="Wrong password 😶";
 }
 
-/* INTRO */
 function startIntro(){
   intro.style.display="flex";
   textBox.innerHTML="";
@@ -315,88 +247,53 @@ function startIntro(){
 
   setTimeout(()=>{
     document.querySelectorAll("#textBox span").forEach(s=>{
-      s.style.transform=`translate(${Math.random()*800-400}px,${Math.random()*800-400}px) rotate(${Math.random()*720-360}deg)`;
+      s.style.transform=`translate(${Math.random()*600-300}px,${Math.random()*600-300}px)`;
       s.style.opacity="0";
     });
-    textBox.classList.add("boxBlast");
-  },2500);
+  },2000);
 
   setTimeout(()=>{
     intro.style.display="none";
     cloud.style.display="block";
     cloud.classList.add("cloudClear");
-  },3500);
+  },3000);
 
   setTimeout(()=>{
     gallery.style.display="flex";
     loadPhoto();
-    gallery.classList.add("show");
-  },5000);
+  },4000);
 }
 
 /* PHOTOS */
-const photos=[
- {src:"1.jpg",text:"This moment means everything 💙"},
- {src:"2.jpg",text:"You make my world brighter ✨"},
- {src:"3.webp",text:"My favorite smile 😊"},
- {src:"4.jpg",text:"Every memory with you is special 💫"},
- {src:"5.jpg",text:"I choose you 💙"},
- {src:"6.jpg",text:"My peace, my home 🫶"},
- {src:"7.jpg",text:"Forever feels right 💕"},
- {src:"8.jpg",text:"Still smiling thinking of you 😍"},
- {src:"9.png",text:"You are my happiness 💙"},
- {src:"10.jpg",text:"This is just the beginning ✨"}
-];
+const photos=["1.jpg","2.jpg","3.webp","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg","9.png","10.jpg"];
 let i=0;
-
-function loadPhoto(){
-  photo.src=photos[i].src;
-  caption.innerText=photos[i].text;
-}
-
+function loadPhoto(){ photo.src=photos[i]; caption.innerText="💙"; }
 function nextPhoto(){
-  i++;
-  if(i<photos.length){
-    loadPhoto();
-  }else{
-    gallery.style.display="none";
-    stage2.style.display="flex";
-  }
+  if(++i<photos.length) loadPhoto();
+  else{ gallery.style.display="none"; startStage2(); }
 }
 
-/* HARD BUTTONS */
-function moveBtn(btn){
-  btn.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
+/* STAGE 2 */
+function startStage2(){
+  stage2.style.display="flex";
+  moveButtons();
+  setInterval(moveButtons,1200);
 }
-yesBtn.onmouseover=noBtn.onmouseover=()=>{};
-yesBtn.ontouchstart=()=>moveBtn(yesBtn);
-noBtn.ontouchstart=()=>moveBtn(noBtn);
 
-/* STAGE 2 FLOW */
+function moveButtons(){
+  yesBtn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+  noBtn.style.transform=`translate(${Math.random()*200-100}px,${Math.random()*200-100}px)`;
+}
+
 yesBtn.onclick=()=>{
-  yesNo.style.display="none";
+  yesBtn.style.display="none";
+  noBtn.style.display="none";
   options.style.display="block";
 };
 
-function chooseOption(type){
-  options.style.display="none";
-  if(type!=="Lunch"){
-    calendarBox.style.display="block";
-  }else{
-    thanksBox.style.display="block";
-  }
-}
-
-function finalOk(){
-  calendarBox.style.display="none";
-  thanksBox.style.display="block";
-}
-
-/* CLOSE */
-function closeNow(){
-  stage2.style.display="none";
-  closeScreen.style.display="flex";
-}
+function chooseOption(){ options.style.display="none"; calendarBox.style.display="block"; }
+function finalOk(){ calendarBox.style.display="none"; thanksBox.style.display="block"; }
+function closeNow(){ stage2.style.display="none"; closeScreen.style.display="flex"; }
 </script>
 
 </body>
