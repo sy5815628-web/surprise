@@ -12,9 +12,10 @@ body{
   height:100vh;
   font-family:Arial,sans-serif;
   background:#87ceeb;
+  overflow:hidden;
 }
 
-/* ---------------- PASSWORD ---------------- */
+/* ---------- PASSWORD ---------- */
 #passwordPage{
   height:100vh;
   display:flex;
@@ -53,9 +54,13 @@ body{
   color:white;
 }
 
-.error{margin-top:8px;color:red;font-size:14px;}
+.error{
+  margin-top:8px;
+  color:red;
+  font-size:14px;
+}
 
-/* ---------------- INTRO ---------------- */
+/* ---------- INTRO ---------- */
 #intro{
   position:fixed;
   inset:0;
@@ -63,10 +68,10 @@ body{
   justify-content:center;
   align-items:center;
   background:#b3e5fc;
-  z-index:10;
+  z-index:5;
 }
 
-#text{
+#textBox{
   display:flex;
   font-size:2.4rem;
   font-weight:600;
@@ -78,7 +83,7 @@ body{
   animation:slideIn 1s ease forwards;
 }
 
-#text span{
+#textBox span{
   display:inline-block;
   transition:transform 1.2s ease, opacity 1.2s ease;
 }
@@ -88,18 +93,28 @@ body{
   to{transform:translateX(0);}
 }
 
-/* ---------------- CLOUD ---------------- */
+/* ---------- BOX BLAST ---------- */
+.boxBlast{
+  animation:boxExplode 1s ease forwards;
+}
+
+@keyframes boxExplode{
+  0%{transform:scale(1);opacity:1;}
+  60%{transform:scale(1.5) rotate(8deg);opacity:0.7;}
+  100%{transform:scale(3) rotate(25deg);opacity:0;}
+}
+
+/* ---------- CLOUD ---------- */
 #cloud{
   position:fixed;
   inset:0;
-  display:none;              /* 🔥 KEY FIX */
+  display:none;
   background:
     radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 45%),
     radial-gradient(circle at 70% 50%, rgba(255,255,255,0.08), transparent 55%),
     linear-gradient(135deg,#020617,#0f172a,#020617);
   backdrop-filter:blur(14px);
-  opacity:1;
-  z-index:5;
+  z-index:4;
   pointer-events:none;
 }
 
@@ -114,11 +129,11 @@ body{
   100%{opacity:0;}
 }
 
-/* ---------------- GALLERY ---------------- */
+/* ---------- GALLERY ---------- */
 #gallery{
   position:fixed;
   inset:0;
-  display:none;              /* 🔥 KEY FIX */
+  display:none;
   justify-content:center;
   align-items:center;
   background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
@@ -174,7 +189,7 @@ body{
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="text"></div>
+  <div id="textBox"></div>
 </div>
 
 <!-- CLOUD -->
@@ -190,6 +205,7 @@ body{
 </div>
 
 <script>
+/* ---------- PASSWORD ---------- */
 function checkPassword(){
   const pass=document.getElementById("password").value.replace(/\s+/g,"");
   if(pass==="21012025"){
@@ -200,31 +216,33 @@ function checkPassword(){
   }
 }
 
+/* ---------- INTRO + BLAST ---------- */
 function startIntro(){
   const intro=document.getElementById("intro");
-  const textBox=document.getElementById("text");
+  const textBox=document.getElementById("textBox");
   const cloud=document.getElementById("cloud");
   const gallery=document.getElementById("gallery");
 
   intro.style.display="flex";
+  textBox.innerHTML="";
 
   const text="Hey Cutie 💙";
-  textBox.innerHTML="";
   [...text].forEach(letter=>{
     const span=document.createElement("span");
     span.textContent=letter;
     textBox.appendChild(span);
   });
 
-  // BLAST
+  // LETTER + BOX BLAST
   setTimeout(()=>{
-    document.querySelectorAll("#text span").forEach(span=>{
+    document.querySelectorAll("#textBox span").forEach(span=>{
       const x=(Math.random()*800)-400;
       const y=(Math.random()*800)-400;
       const r=(Math.random()*720)-360;
       span.style.transform=`translate(${x}px,${y}px) rotate(${r}deg)`;
       span.style.opacity="0";
     });
+    textBox.classList.add("boxBlast");
   },2500);
 
   // CLOUD FORMS
@@ -234,7 +252,7 @@ function startIntro(){
     cloud.classList.add("cloudClear");
   },3500);
 
-  // PHOTOS EMERGE
+  // PHOTOS APPEAR DURING CLOUD CLEAR
   setTimeout(()=>{
     gallery.style.display="flex";
     loadPhoto();
@@ -242,8 +260,8 @@ function startIntro(){
   },5000);
 }
 
-/* PHOTOS */
-var photos=[
+/* ---------- PHOTOS ---------- */
+const photos=[
   {src:"1.jpg",text:"This moment means everything 💙"},
   {src:"2.jpg",text:"You make my world brighter ✨"},
   {src:"3.webp",text:"My favorite smile 😊"},
@@ -257,12 +275,15 @@ var photos=[
 ];
 
 let i=0;
+
 function loadPhoto(){
   document.getElementById("photo").src=photos[i].src;
   document.getElementById("caption").innerText=photos[i].text;
 }
+
 function nextPhoto(){
-  i++; if(i<photos.length){loadPhoto();}
+  i++;
+  if(i<photos.length){loadPhoto();}
 }
 </script>
 
