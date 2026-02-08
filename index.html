@@ -93,7 +93,9 @@ button{
 <script>
 function checkPassword(){
   var pass = document.getElementById("password").value;
-  pass = pass.replace(/\s+/g, ""); // clean mobile input
+
+  // REMOVE EVERYTHING except digits (mobile-safe)
+  pass = pass.replace(/\D/g, "");
 
   var error = document.getElementById("error");
 
@@ -112,7 +114,6 @@ function showHeyCutie(){
     </div>
   `;
 
-  // add styles dynamically (safe for mobile)
   const style = document.createElement("style");
   style.innerHTML = `
     body{
@@ -171,23 +172,18 @@ function showHeyCutie(){
   `;
   document.head.appendChild(style);
 
-  // after 2 seconds → blast into cloud
   setTimeout(()=>{
     document.getElementById("heyText").style.display="none";
-    const cloud = document.getElementById("cloud");
-    cloud.classList.add("cloudShow");
+    document.getElementById("cloud").classList.add("cloudShow");
   },2000);
 
-  // after total 7 seconds → next stage placeholder
   setTimeout(()=>{
-    document.body.innerHTML = `
-      <h2 style="color:#0d47a1;text-align:center;">
-        Next stage: Photos coming next 💙
-      </h2>
-    `;
+    document.body.innerHTML =
+      "<h2 style='color:#0d47a1;text-align:center;'>Next stage: Photos coming 💙</h2>";
   },7000);
 }
 </script>
+
 
 
 
