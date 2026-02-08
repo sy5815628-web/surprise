@@ -90,9 +90,19 @@ body{
   animation:slideIn 1s ease forwards;
 }
 
-@keyframes slideIn{
-  from{transform:translateX(-120%);}
-  to{transform:translateX(0);}
+@keyframes clearFog{
+  0%{
+    opacity:1;
+    backdrop-filter:blur(12px);
+  }
+  70%{
+    opacity:0.8;
+    backdrop-filter:blur(8px);
+  }
+  100%{
+    opacity:0;
+    backdrop-filter:blur(0);
+  }
 }
 
 /* ---------------- FULL SCREEN CLOUD ---------------- */
@@ -100,11 +110,11 @@ body{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 40%),
-    radial-gradient(circle at 70% 40%, rgba(255,255,255,0.12), transparent 45%),
-    radial-gradient(circle at 50% 70%, rgba(255,255,255,0.18), transparent 50%),
-    linear-gradient(135deg,#263238,#37474f,#455a64);
-  backdrop-filter: blur(6px);
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 45%),
+    radial-gradient(circle at 70% 40%, rgba(255,255,255,0.06), transparent 50%),
+    radial-gradient(circle at 50% 70%, rgba(255,255,255,0.10), transparent 55%),
+    linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  backdrop-filter: blur(10px);
   opacity:0;
   z-index:3;
   pointer-events:none;
@@ -209,23 +219,29 @@ function checkPassword(){
 
 /* ---------- INTRO + CLOUD ---------- */
 function showIntro(){
-  const intro=document.getElementById("intro");
-  const cloud=document.getElementById("cloudOverlay");
+  const intro = document.getElementById("intro");
+  const cloud = document.getElementById("cloudOverlay");
 
-  intro.style.display="flex";
+  intro.style.display = "flex";
 
+  // 1️⃣ Hey Cutie stays longer
   setTimeout(()=>{
-    document.getElementById("heyText").style.display="none";
-    cloud.style.opacity="1";
+    document.getElementById("heyText").style.display = "none";
+
+    // 2️⃣ Cloud appears slowly
+    cloud.style.opacity = "1";
     cloud.classList.add("cloudClear");
-  },2000);
 
+  }, 3000); // was 2000
+
+  // 3️⃣ Photos appear ONLY after cloud fully clears
   setTimeout(()=>{
-    intro.style.display="none";
-    document.getElementById("gallery").style.display="flex";
+    intro.style.display = "none";
+    document.getElementById("gallery").style.display = "flex";
     loadPhoto();
-  },7000);
+  }, 10000); // was 7000
 }
+
 
 /* ---------- GALLERY ---------- */
 var photos=[
