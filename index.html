@@ -92,7 +92,11 @@ button{
 
 <script>
 function checkPassword(){
-  var pass = document.getElementById("password").value.trim();
+  var pass = document.getElementById("password").value;
+
+  // remove ALL spaces and hidden characters
+  pass = pass.replace(/\s+/g, "");
+
   var error = document.getElementById("error");
 
   if(pass === "21012025"){
