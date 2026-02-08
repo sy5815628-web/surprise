@@ -103,6 +103,52 @@ button{
   background:#1976d2;
   color:white;
 }
+  #intro{
+  position:fixed;
+  inset:0;
+  background: linear-gradient(135deg,#b3e5fc,#81d4fa,#4fc3f7);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+#heyText{
+  font-size:2.2rem;
+  color:#0d47a1;
+  font-weight:600;
+  padding:20px 30px;
+  border:2px solid #0d47a1;
+  border-radius:18px;
+  background:#e3f2fd;
+  position:absolute;
+  animation:slideIn 1s ease forwards;
+}
+
+@keyframes slideIn{
+  from{ transform:translateX(-120%); }
+  to{ transform:translateX(0); }
+}
+
+#cloud{
+  position:absolute;
+  width:200px;
+  height:120px;
+  background:#ffffff;
+  border-radius:60px;
+  opacity:0;
+}
+
+.cloud-blast{
+  animation:cloudBlast 5s ease forwards;
+}
+
+@keyframes cloudBlast{
+  0%{ transform:scale(0.3); opacity:0; }
+  20%{ transform:scale(1); opacity:0.9; }
+  100%{ transform:scale(2); opacity:0; }
+}
+
 </style>
 </head>
 
@@ -149,6 +195,10 @@ function checkPassword(){
     error.innerText = "Wrong password 😶 Try again";
   }
 }
+<div id="intro" style="display:none;">
+  <div id="heyText">Hey Cutie 💙</div>
+  <div id="cloud"></div>
+</div>
 
 function showHeyCutie(){
  document.querySelector(".card").style.display = "none";
@@ -253,6 +303,25 @@ function nextPhoto(){
     alert("That was my story 💙");
   }
 }
+
+function showIntro(){
+  const intro = document.getElementById("intro");
+  intro.style.display="flex";
+
+  setTimeout(()=>{
+    document.getElementById("heyText").style.display="none";
+    const cloud = document.getElementById("cloud");
+    cloud.classList.add("cloud-blast");
+    cloud.style.opacity="1";
+  },2000);
+
+  setTimeout(()=>{
+    intro.style.display="none";
+    document.getElementById("gallery").style.display="flex";
+    loadPhoto();
+  },7000);
+}
+
 
 </script>
 
