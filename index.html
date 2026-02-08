@@ -92,11 +92,10 @@ button{
 
 <script>
 function checkPassword(){
-  var pass = document.getElementById("password").value;
+  var pass = document.getElementById("password").value.trim();
   var error = document.getElementById("error");
 
-  if(pass === "21/01/2025"){
-    // temporary success screen
+  if(pass === "21012025"){
     document.body.innerHTML =
       "<h1 style='color:#0a3d62;text-align:center;'>Access Granted 💙</h1>";
   }else{
@@ -104,6 +103,7 @@ function checkPassword(){
   }
 }
 </script>
+
 
 </body>
 </html>
