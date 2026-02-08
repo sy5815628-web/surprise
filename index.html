@@ -5,88 +5,102 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Private 💙</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
 <style>
+*{
+  box-sizing:border-box;
+}
+
 body{
   margin:0;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family:'Poppins',sans-serif;
-  background: linear-gradient(135deg,#b3e5fc,#81d4fa,#4fc3f7);
+  background:#87ceeb; /* sky blue */
+  font-family: Arial, sans-serif;
 }
 
-.box{
-  background:#e1f5fe;
-  padding:30px 25px;
-  width:85%;
-  max-width:360px;
-  border-radius:18px;
+.card{
+  background:#e6f6ff;
+  width:90%;
+  max-width:350px;
+  padding:25px;
+  border-radius:16px;
   text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
 h2{
-  color:#01579b;
+  color:#0a3d62;
   margin-bottom:15px;
 }
 
 input{
-  width:90%;
+  width:100%;
   padding:12px;
-  border-radius:12px;
-  border:1px solid #4fc3f7;
-  font-size:1rem;
+  font-size:16px;
+  border-radius:10px;
+  border:1px solid #4aa3df;
   text-align:center;
+}
+
+button{
+  margin-top:15px;
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  border:none;
+  border-radius:25px;
+  background:#1e90ff;
+  color:white;
 }
 
 .hint{
   margin-top:10px;
-  font-size:0.85rem;
-  color:#0277bd;
-}
-
-button{
-  margin-top:18px;
-  padding:12px 30px;
-  border:none;
-  border-radius:25px;
-  background:#0288d1;
-  color:white;
-  font-size:1rem;
-  cursor:pointer;
+  font-size:13px;
+  color:#0a3d62;
 }
 
 .error{
   margin-top:10px;
-  color:#d32f2f;
-  font-size:0.9rem;
+  color:red;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
+<div class="card">
   <h2>Enter Password 🔐</h2>
-  <input id="pass" placeholder="DD/MM/YYYY">
-  <div class="hint">Hint: the final day of chapter started 💙</div>
-  <button onclick="check()">Enter</button>
-  <div class="error" id="err"></div>
+
+  <input
+    type="text"
+    id="password"
+    placeholder="DD/MM/YYYY"
+    inputmode="numeric"
+  >
+
+  <div class="hint">
+    Hint: the final day of chapter started 💙
+  </div>
+
+  <button onclick="checkPassword()">Enter</button>
+
+  <div id="error" class="error"></div>
 </div>
 
 <script>
-function check(){
-  const input=document.getElementById("pass").value.trim();
-  const error=document.getElementById("err");
+function checkPassword(){
+  var pass = document.getElementById("password").value;
+  var error = document.getElementById("error");
 
-  if(input==="21/01/2025"){
-    document.body.innerHTML="<h1 style='color:#01579b'>Loading… 💙</h1>";
-    // NEXT STAGE will load here
+  if(pass === "21/01/2025"){
+    // temporary success screen
+    document.body.innerHTML =
+      "<h1 style='color:#0a3d62;text-align:center;'>Access Granted 💙</h1>";
   }else{
-    error.innerText="Wrong password 😶 Try again";
+    error.innerText = "Wrong password 😶 Try again";
   }
 }
 </script>
