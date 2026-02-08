@@ -6,16 +6,16 @@
 <title>Private 💙</title>
 
 <style>
-*{box-sizing:border-box;}
+*{box-sizing:border-box;margin:0;padding:0;}
+
 body{
-  margin:0;
   height:100vh;
-  font-family:Arial,sans-serif;
   overflow:hidden;
+  font-family:Arial,sans-serif;
   background:#0f2027;
 }
 
-/* PASSWORD */
+/* ---------------- PASSWORD ---------------- */
 #passwordPage{
   height:100vh;
   display:flex;
@@ -35,6 +35,7 @@ body{
 .card input{
   width:100%;
   padding:12px;
+  margin-top:10px;
   font-size:16px;
   border-radius:10px;
   border:1px solid #4aa3df;
@@ -49,9 +50,9 @@ body{
   background:#1e90ff;
   color:white;
 }
-.error{color:red;font-size:14px;margin-top:8px;}
+.error{margin-top:8px;color:red;font-size:14px;}
 
-/* HEY CUTIE */
+/* ---------------- INTRO ---------------- */
 #intro{
   position:fixed;
   inset:0;
@@ -61,8 +62,11 @@ body{
   background:#b3e5fc;
   z-index:5;
 }
-#heyText{
-  font-size:2.4rem;
+
+#text{
+  display:flex;
+  font-size:2.5rem;
+  font-weight:600;
   color:#0d47a1;
   background:#e3f2fd;
   padding:20px 30px;
@@ -70,57 +74,55 @@ body{
   border-radius:18px;
   animation:slideIn 1s ease forwards;
 }
+
+#text span{
+  display:inline-block;
+  transition:transform 1s ease, opacity 1s ease;
+}
+
 @keyframes slideIn{
   from{transform:translateX(-120%);}
   to{transform:translateX(0);}
 }
 
-/* BLAST */
-.blast{
-  animation:blast 0.8s ease forwards;
-}
-@keyframes blast{
-  0%{transform:scale(1);filter:blur(0);}
-  60%{transform:scale(4);filter:blur(2px);}
-  100%{transform:scale(6);opacity:0;}
-}
-
-/* CLOUD */
-#fog{
+/* ---------------- CLOUD ---------------- */
+#cloud{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 35%),
-    linear-gradient(135deg,#000814,#001d3d,#003566);
-  opacity:1;
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 45%),
+    radial-gradient(circle at 70% 50%, rgba(255,255,255,0.08), transparent 55%),
+    linear-gradient(135deg,#020617,#0f172a,#020617);
+  opacity:0;
   z-index:3;
-  mask-image: radial-gradient(circle at center, black 0%, transparent 0%);
-  -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 0%);
-}
-.breakFog{
-  animation:fogBreak 8s ease forwards;
-}
-@keyframes fogBreak{
-  0%{
-    -webkit-mask-size:0% 0%;
-    mask-size:0% 0%;
-  }
-  100%{
-    -webkit-mask-size:300% 300%;
-    mask-size:300% 300%;
-  }
+  backdrop-filter:blur(14px);
 }
 
-/* GALLERY */
+.cloudClear{
+  animation:clearCloud 9s ease forwards;
+}
+
+@keyframes clearCloud{
+  0%{opacity:1;}
+  40%{opacity:0.9;}
+  70%{opacity:0.6;}
+  100%{opacity:0;}
+}
+
+/* ---------------- GALLERY ---------------- */
 #gallery{
   position:fixed;
   inset:0;
   background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
-  display:flex;
+  display:none;
   justify-content:center;
   align-items:center;
   z-index:1;
+  opacity:0;
+  transition:opacity 4s ease;
 }
+#gallery.show{opacity:1;}
+
 .photoBox{
   width:90%;
   max-width:360px;
@@ -134,8 +136,8 @@ body{
   border-radius:14px;
 }
 .photoBox p{
-  color:#0d47a1;
   margin-top:10px;
+  color:#0d47a1;
 }
 .photoBox button{
   margin-top:12px;
@@ -156,17 +158,20 @@ body{
     <h2>Enter Password 🔐</h2>
     <input id="password" placeholder="DDMMYYYY">
     <button onclick="checkPassword()">Enter</button>
-    <div class="error" id="error"></div>
+    <div id="error" class="error"></div>
   </div>
 </div>
 
 <!-- INTRO -->
 <div id="intro">
-  <div id="heyText">Hey Cutie 💙</div>
+  <div id="text"></div>
 </div>
 
-<!-- GALLERY (ALREADY LOADED) -->
-<div id="gallery" style="display:none;">
+<!-- CLOUD -->
+<div id="cloud"></div>
+
+<!-- GALLERY -->
+<div id="gallery">
   <div class="photoBox">
     <img id="photo">
     <p id="caption"></p>
@@ -174,40 +179,62 @@ body{
   </div>
 </div>
 
-<!-- FOG -->
-<div id="fog"></div>
-
 <script>
+/* ---------- PASSWORD ---------- */
 function checkPassword(){
   if(document.getElementById("password").value.replace(/\s+/g,"")==="21012025"){
     document.getElementById("passwordPage").style.display="none";
-    startScene();
+    startIntro();
   }else{
     document.getElementById("error").innerText="Wrong password";
   }
 }
 
-function startScene(){
+/* ---------- LETTER BLAST INTRO ---------- */
+function startIntro(){
   const intro=document.getElementById("intro");
-  const text=document.getElementById("heyText");
-  const fog=document.getElementById("fog");
+  const cloud=document.getElementById("cloud");
   const gallery=document.getElementById("gallery");
+  const textBox=document.getElementById("text");
 
   intro.style.display="flex";
-  gallery.style.display="flex";
-  loadPhoto();
 
+  const text="Hey Cutie 💙";
+  textBox.innerHTML="";
+
+  [...text].forEach(letter=>{
+    const span=document.createElement("span");
+    span.textContent=letter;
+    textBox.appendChild(span);
+  });
+
+  // BLAST letters randomly
   setTimeout(()=>{
-    text.classList.add("blast");
-  },2000);
+    document.querySelectorAll("#text span").forEach(span=>{
+      const x=(Math.random()*600)-300;
+      const y=(Math.random()*600)-300;
+      const r=(Math.random()*720)-360;
+      span.style.transform=`translate(${x}px,${y}px) rotate(${r}deg)`;
+      span.style.opacity="0";
+    });
+  },2500);
 
+  // DARK CLOUD FORMS
   setTimeout(()=>{
     intro.style.display="none";
-    fog.classList.add("breakFog");
-  },2800);
+    cloud.style.opacity="1";
+    cloud.classList.add("cloudClear");
+  },3500);
+
+  // PHOTOS EMERGE THROUGH CLOUD
+  setTimeout(()=>{
+    gallery.style.display="flex";
+    loadPhoto();
+    requestAnimationFrame(()=>gallery.classList.add("show"));
+  },5000);
 }
 
-/* PHOTOS */
+/* ---------- PHOTOS ---------- */
 var photos=[
   {src:"1.jpg",text:"This moment means everything 💙"},
   {src:"2.jpg",text:"You make my world brighter ✨"},
@@ -221,6 +248,7 @@ var photos=[
   {src:"10.jpg",text:"This is just the beginning ✨"}
 ];
 var i=0;
+
 function loadPhoto(){
   document.getElementById("photo").src=photos[i].src;
   document.getElementById("caption").innerText=photos[i].text;
