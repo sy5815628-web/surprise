@@ -15,7 +15,7 @@ body{
   overflow:hidden;
 }
 
-/* ---------- PASSWORD ---------- */
+/* ================= PASSWORD ================= */
 #passwordPage{
   height:100vh;
   display:flex;
@@ -60,7 +60,7 @@ body{
   font-size:14px;
 }
 
-/* ---------- INTRO ---------- */
+/* ================= INTRO ================= */
 #intro{
   position:fixed;
   inset:0;
@@ -93,18 +93,18 @@ body{
   to{transform:translateX(0);}
 }
 
-/* ---------- BOX BLAST ---------- */
+/* ================= BOX BLAST ================= */
 .boxBlast{
   animation:boxExplode 1s ease forwards;
 }
 
 @keyframes boxExplode{
   0%{transform:scale(1);opacity:1;}
-  60%{transform:scale(1.5) rotate(8deg);opacity:0.7;}
+  60%{transform:scale(1.5) rotate(10deg);opacity:0.7;}
   100%{transform:scale(3) rotate(25deg);opacity:0;}
 }
 
-/* ---------- CLOUD ---------- */
+/* ================= CLOUD ================= */
 #cloud{
   position:fixed;
   inset:0;
@@ -129,7 +129,7 @@ body{
   100%{opacity:0;}
 }
 
-/* ---------- GALLERY ---------- */
+/* ================= GALLERY ================= */
 #gallery{
   position:fixed;
   inset:0;
@@ -151,7 +151,6 @@ body{
   padding:15px;
   border-radius:18px;
   text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 .photoBox img{
@@ -171,6 +170,45 @@ body{
   border-radius:25px;
   background:#1976d2;
   color:white;
+}
+
+/* ================= STAGE 2 ================= */
+#stage2{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#0d47a1,#1976d2,#42a5f5);
+  z-index:10;
+}
+
+#stage2 .box{
+  width:90%;
+  max-width:360px;
+  background:#e3f2fd;
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+}
+
+#stage2 button{
+  margin:8px;
+  padding:12px 18px;
+  border:none;
+  border-radius:25px;
+  background:#1976d2;
+  color:white;
+}
+
+#noBtn{position:relative;}
+
+#options,#calendarBox,#thanksMsg{display:none;}
+
+#thanksMsg{
+  margin-top:15px;
+  font-size:18px;
+  color:#0d47a1;
 }
 </style>
 </head>
@@ -204,55 +242,67 @@ body{
   </div>
 </div>
 
+<!-- STAGE 2 -->
+<div id="stage2">
+  <div class="box">
+    <h2>Would you like to go on a date with me? 💙</h2>
+
+    <div id="yesNo">
+      <button id="yesBtn">YES 😍</button>
+      <button id="noBtn">NO 😜</button>
+    </div>
+
+    <div id="options">
+      <button onclick="chooseOption('Coffee')">☕ Coffee Date</button>
+      <button onclick="chooseOption('Drive')">🚗 Long Drive</button>
+      <button onclick="chooseOption('Lunch')">🍽️ Lunch Date</button>
+    </div>
+
+    <div id="calendarBox">
+      <input type="date" id="datePick">
+      <button onclick="finalOk()">OK 💙</button>
+    </div>
+
+    <p id="thanksMsg">Thank you Cutu 💙</p>
+  </div>
+</div>
+
 <script>
-/* ---------- PASSWORD ---------- */
+/* PASSWORD */
 function checkPassword(){
-  const pass=document.getElementById("password").value.replace(/\s+/g,"");
+  const pass=password.value.replace(/\s+/g,"");
   if(pass==="21012025"){
-    document.getElementById("passwordPage").style.display="none";
+    passwordPage.style.display="none";
     startIntro();
   }else{
-    document.getElementById("error").innerText="Wrong password 😶";
+    error.innerText="Wrong password 😶";
   }
 }
 
-/* ---------- INTRO + BLAST ---------- */
+/* INTRO + BLAST */
 function startIntro(){
-  const intro=document.getElementById("intro");
-  const textBox=document.getElementById("textBox");
-  const cloud=document.getElementById("cloud");
-  const gallery=document.getElementById("gallery");
-
   intro.style.display="flex";
   textBox.innerHTML="";
-
-  const text="Hey Cutie 💙";
-  [...text].forEach(letter=>{
-    const span=document.createElement("span");
-    span.textContent=letter;
-    textBox.appendChild(span);
+  [..."Hey Cutie 💙"].forEach(l=>{
+    const s=document.createElement("span");
+    s.textContent=l;
+    textBox.appendChild(s);
   });
 
-  // LETTER + BOX BLAST
   setTimeout(()=>{
     document.querySelectorAll("#textBox span").forEach(span=>{
-      const x=(Math.random()*800)-400;
-      const y=(Math.random()*800)-400;
-      const r=(Math.random()*720)-360;
-      span.style.transform=`translate(${x}px,${y}px) rotate(${r}deg)`;
+      span.style.transform=`translate(${Math.random()*800-400}px,${Math.random()*800-400}px) rotate(${Math.random()*720-360}deg)`;
       span.style.opacity="0";
     });
     textBox.classList.add("boxBlast");
   },2500);
 
-  // CLOUD FORMS
   setTimeout(()=>{
     intro.style.display="none";
     cloud.style.display="block";
     cloud.classList.add("cloudClear");
   },3500);
 
-  // PHOTOS APPEAR DURING CLOUD CLEAR
   setTimeout(()=>{
     gallery.style.display="flex";
     loadPhoto();
@@ -260,30 +310,65 @@ function startIntro(){
   },5000);
 }
 
-/* ---------- PHOTOS ---------- */
+/* PHOTOS */
 const photos=[
-  {src:"1.jpg",text:"This moment means everything 💙"},
-  {src:"2.jpg",text:"You make my world brighter ✨"},
-  {src:"3.webp",text:"My favorite smile 😊"},
-  {src:"4.jpg",text:"Every memory with you is special 💫"},
-  {src:"5.jpg",text:"I choose you 💙"},
-  {src:"6.jpg",text:"My peace, my home 🫶"},
-  {src:"7.jpg",text:"Forever feels right 💕"},
-  {src:"8.jpg",text:"Still smiling thinking of you 😍"},
-  {src:"9.png",text:"You are my happiness 💙"},
-  {src:"10.jpg",text:"This is just the beginning ✨"}
+ {src:"1.jpg",text:"This moment means everything 💙"},
+ {src:"2.jpg",text:"You make my world brighter ✨"},
+ {src:"3.webp",text:"My favorite smile 😊"},
+ {src:"4.jpg",text:"Every memory with you is special 💫"},
+ {src:"5.jpg",text:"I choose you 💙"},
+ {src:"6.jpg",text:"My peace, my home 🫶"},
+ {src:"7.jpg",text:"Forever feels right 💕"},
+ {src:"8.jpg",text:"Still smiling thinking of you 😍"},
+ {src:"9.png",text:"You are my happiness 💙"},
+ {src:"10.jpg",text:"This is just the beginning ✨"}
 ];
-
 let i=0;
 
 function loadPhoto(){
-  document.getElementById("photo").src=photos[i].src;
-  document.getElementById("caption").innerText=photos[i].text;
+  photo.src=photos[i].src;
+  caption.innerText=photos[i].text;
 }
 
 function nextPhoto(){
   i++;
-  if(i<photos.length){loadPhoto();}
+  if(i<photos.length){
+    loadPhoto();
+  }else{
+    gallery.style.display="none";
+    startStage2();
+  }
+}
+
+/* STAGE 2 */
+function startStage2(){
+  stage2.style.display="flex";
+}
+
+noBtn.onmouseover=noBtn.ontouchstart=()=>{
+  noBtn.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
+};
+
+yesBtn.onclick=()=>{
+  yesNo.style.display="none";
+  options.style.display="block";
+};
+
+function chooseOption(type){
+  options.style.display="none";
+  if(type!=="Lunch"){
+    calendarBox.style.display="block";
+  }else{
+    showThanks();
+  }
+}
+
+function finalOk(){ showThanks(); }
+
+function showThanks(){
+  calendarBox.style.display="none";
+  thanksMsg.style.display="block";
+  setTimeout(()=>stage2.style.opacity="0",3000);
 }
 </script>
 
