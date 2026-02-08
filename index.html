@@ -74,12 +74,12 @@ button{
 <div class="card">
   <h2>Enter Password 🔐</h2>
 
-  <input
-    type="text"
-    id="password"
-    placeholder="DD/MM/YYYY"
-    inputmode="numeric"
-  >
+ <input
+  type="tel"
+  id="password"
+  placeholder="DDMMYYYY"
+>
+
 
   <div class="hint">
     Hint: the final day of chapter started 💙
@@ -95,7 +95,7 @@ function checkPassword(){
   var pass = document.getElementById("password").value;
   var error = document.getElementById("error");
 
-  if(pass === "21-01-2025"){
+  if(pass === "21/01/2025"){
     // temporary success screen
     document.body.innerHTML =
       "<h1 style='color:#0a3d62;text-align:center;'>Access Granted 💙</h1>";
