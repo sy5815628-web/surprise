@@ -199,16 +199,33 @@ body{
   border-radius:25px;
   background:#1976d2;
   color:white;
+  position:relative;
 }
 
-#noBtn{position:relative;}
+#options,#calendarBox,#thanksBox{display:none;}
 
-#options,#calendarBox,#thanksMsg{display:none;}
-
-#thanksMsg{
-  margin-top:15px;
+#thanksBox{
   font-size:18px;
   color:#0d47a1;
+}
+
+/* ================= FINAL CLOSE ================= */
+#closeScreen{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:1.5rem;
+  z-index:20;
+  animation:closeAnim 3s ease forwards;
+}
+
+@keyframes closeAnim{
+  from{opacity:0;}
+  to{opacity:1;}
 }
 </style>
 </head>
@@ -259,19 +276,26 @@ body{
     </div>
 
     <div id="calendarBox">
-      <input type="date" id="datePick">
+      <input type="date">
       <button onclick="finalOk()">OK 💙</button>
     </div>
 
-    <p id="thanksMsg">Thank you Cutu 💙</p>
+    <div id="thanksBox">
+      <p>Thank you Cutu 💙</p>
+      <button onclick="closeNow()">Next ➡️</button>
+    </div>
   </div>
+</div>
+
+<!-- CLOSE -->
+<div id="closeScreen">
+  See you next time 💙
 </div>
 
 <script>
 /* PASSWORD */
 function checkPassword(){
-  const pass=password.value.replace(/\s+/g,"");
-  if(pass==="21012025"){
+  if(password.value.replace(/\s+/g,"")==="21012025"){
     passwordPage.style.display="none";
     startIntro();
   }else{
@@ -279,20 +303,20 @@ function checkPassword(){
   }
 }
 
-/* INTRO + BLAST */
+/* INTRO */
 function startIntro(){
   intro.style.display="flex";
   textBox.innerHTML="";
   [..."Hey Cutie 💙"].forEach(l=>{
-    const s=document.createElement("span");
+    let s=document.createElement("span");
     s.textContent=l;
     textBox.appendChild(s);
   });
 
   setTimeout(()=>{
-    document.querySelectorAll("#textBox span").forEach(span=>{
-      span.style.transform=`translate(${Math.random()*800-400}px,${Math.random()*800-400}px) rotate(${Math.random()*720-360}deg)`;
-      span.style.opacity="0";
+    document.querySelectorAll("#textBox span").forEach(s=>{
+      s.style.transform=`translate(${Math.random()*800-400}px,${Math.random()*800-400}px) rotate(${Math.random()*720-360}deg)`;
+      s.style.opacity="0";
     });
     textBox.classList.add("boxBlast");
   },2500);
@@ -306,7 +330,7 @@ function startIntro(){
   setTimeout(()=>{
     gallery.style.display="flex";
     loadPhoto();
-    requestAnimationFrame(()=>gallery.classList.add("show"));
+    gallery.classList.add("show");
   },5000);
 }
 
@@ -336,19 +360,19 @@ function nextPhoto(){
     loadPhoto();
   }else{
     gallery.style.display="none";
-    startStage2();
+    stage2.style.display="flex";
   }
 }
 
-/* STAGE 2 */
-function startStage2(){
-  stage2.style.display="flex";
+/* HARD BUTTONS */
+function moveBtn(btn){
+  btn.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
 }
+yesBtn.onmouseover=noBtn.onmouseover=()=>{};
+yesBtn.ontouchstart=()=>moveBtn(yesBtn);
+noBtn.ontouchstart=()=>moveBtn(noBtn);
 
-noBtn.onmouseover=noBtn.ontouchstart=()=>{
-  noBtn.style.transform=`translate(${Math.random()*120-60}px,${Math.random()*120-60}px)`;
-};
-
+/* STAGE 2 FLOW */
 yesBtn.onclick=()=>{
   yesNo.style.display="none";
   options.style.display="block";
@@ -359,16 +383,19 @@ function chooseOption(type){
   if(type!=="Lunch"){
     calendarBox.style.display="block";
   }else{
-    showThanks();
+    thanksBox.style.display="block";
   }
 }
 
-function finalOk(){ showThanks(); }
-
-function showThanks(){
+function finalOk(){
   calendarBox.style.display="none";
-  thanksMsg.style.display="block";
-  setTimeout(()=>stage2.style.opacity="0",3000);
+  thanksBox.style.display="block";
+}
+
+/* CLOSE */
+function closeNow(){
+  stage2.style.display="none";
+  closeScreen.style.display="flex";
 }
 </script>
 
