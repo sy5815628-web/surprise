@@ -7,23 +7,22 @@
 
 <style>
 *{box-sizing:border-box;}
-
 body{
   margin:0;
   height:100vh;
   font-family:Arial,sans-serif;
-  background:#87ceeb;
   overflow:hidden;
+  background:#0f2027;
 }
 
-/* ---------------- PASSWORD PAGE ---------------- */
+/* PASSWORD */
 #passwordPage{
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
+  background:#87ceeb;
 }
-
 .card{
   width:90%;
   max-width:350px;
@@ -31,21 +30,16 @@ body{
   padding:25px;
   border-radius:18px;
   text-align:center;
-  box-shadow:0 8px 20px rgba(0,0,0,0.25);
 }
-
 .card h2{color:#0a3d62;}
-
 .card input{
   width:100%;
   padding:12px;
-  margin-top:10px;
   font-size:16px;
   border-radius:10px;
   border:1px solid #4aa3df;
   text-align:center;
 }
-
 .card button{
   margin-top:15px;
   width:100%;
@@ -54,91 +48,79 @@ body{
   border-radius:25px;
   background:#1e90ff;
   color:white;
-  font-size:16px;
 }
+.error{color:red;font-size:14px;margin-top:8px;}
 
-.hint{
-  margin-top:8px;
-  font-size:13px;
-  color:#0a3d62;
-}
-
-.error{
-  margin-top:8px;
-  font-size:14px;
-  color:red;
-}
-
-/* ---------------- INTRO TEXT ---------------- */
+/* HEY CUTIE */
 #intro{
   position:fixed;
   inset:0;
-  background:linear-gradient(135deg,#b3e5fc,#81d4fa,#4fc3f7);
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:3;
+  background:#b3e5fc;
+  z-index:5;
 }
-
 #heyText{
-  font-size:2.2rem;
+  font-size:2.4rem;
   color:#0d47a1;
   background:#e3f2fd;
   padding:20px 30px;
   border:2px solid #0d47a1;
   border-radius:18px;
   animation:slideIn 1s ease forwards;
-  transition:opacity 2s ease;
 }
-
 @keyframes slideIn{
   from{transform:translateX(-120%);}
   to{transform:translateX(0);}
 }
 
-/* ---------------- FULL SCREEN CLOUD ---------------- */
-#cloudOverlay{
+/* BLAST */
+.blast{
+  animation:blast 0.8s ease forwards;
+}
+@keyframes blast{
+  0%{transform:scale(1);filter:blur(0);}
+  60%{transform:scale(4);filter:blur(2px);}
+  100%{transform:scale(6);opacity:0;}
+}
+
+/* CLOUD */
+#fog{
   position:fixed;
   inset:0;
   background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.08), transparent 45%),
-    radial-gradient(circle at 70% 40%, rgba(255,255,255,0.06), transparent 50%),
-    radial-gradient(circle at 50% 70%, rgba(255,255,255,0.10), transparent 55%),
-    linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  backdrop-filter: blur(14px);
-  opacity:0;
-  z-index:2;
-  pointer-events:none;
+    radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 35%),
+    linear-gradient(135deg,#000814,#001d3d,#003566);
+  opacity:1;
+  z-index:3;
+  mask-image: radial-gradient(circle at center, black 0%, transparent 0%);
+  -webkit-mask-image: radial-gradient(circle at center, black 0%, transparent 0%);
+}
+.breakFog{
+  animation:fogBreak 8s ease forwards;
+}
+@keyframes fogBreak{
+  0%{
+    -webkit-mask-size:0% 0%;
+    mask-size:0% 0%;
+  }
+  100%{
+    -webkit-mask-size:300% 300%;
+    mask-size:300% 300%;
+  }
 }
 
-.cloudClear{
-  animation:clearFog 8s ease forwards;
-}
-
-@keyframes clearFog{
-  0%{opacity:1;}
-  40%{opacity:0.85;}
-  70%{opacity:0.5;}
-  100%{opacity:0;}
-}
-
-/* ---------------- GALLERY ---------------- */
+/* GALLERY */
 #gallery{
   position:fixed;
   inset:0;
   background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
-  display:none;
+  display:flex;
   justify-content:center;
   align-items:center;
   z-index:1;
-  opacity:0;
-  transition:opacity 4s ease;
 }
-
-#gallery.show{
-  opacity:1;
-}
-
 .photoBox{
   width:90%;
   max-width:360px;
@@ -146,42 +128,35 @@ body{
   padding:15px;
   border-radius:18px;
   text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
-
 .photoBox img{
   width:100%;
   border-radius:14px;
 }
-
 .photoBox p{
-  margin-top:10px;
-  font-size:15px;
   color:#0d47a1;
+  margin-top:10px;
 }
-
 .photoBox button{
-  margin-top:15px;
-  padding:12px 25px;
+  margin-top:12px;
+  padding:10px 25px;
   border:none;
   border-radius:25px;
   background:#1976d2;
   color:white;
-  font-size:15px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- PASSWORD PAGE -->
+<!-- PASSWORD -->
 <div id="passwordPage">
   <div class="card">
     <h2>Enter Password 🔐</h2>
-    <input id="password" type="tel" placeholder="DDMMYYYY">
-    <div class="hint">Hint: the final day of chapter started 💙</div>
+    <input id="password" placeholder="DDMMYYYY">
     <button onclick="checkPassword()">Enter</button>
-    <div id="error" class="error"></div>
+    <div class="error" id="error"></div>
   </div>
 </div>
 
@@ -190,11 +165,8 @@ body{
   <div id="heyText">Hey Cutie 💙</div>
 </div>
 
-<!-- CLOUD -->
-<div id="cloudOverlay"></div>
-
-<!-- GALLERY -->
-<div id="gallery">
+<!-- GALLERY (ALREADY LOADED) -->
+<div id="gallery" style="display:none;">
   <div class="photoBox">
     <img id="photo">
     <p id="caption"></p>
@@ -202,50 +174,40 @@ body{
   </div>
 </div>
 
-<script>
-/* ---------- PASSWORD ---------- */
-function checkPassword(){
-  let pass=document.getElementById("password").value.replace(/\s+/g,"");
-  let error=document.getElementById("error");
+<!-- FOG -->
+<div id="fog"></div>
 
-  if(pass==="21012025"){
+<script>
+function checkPassword(){
+  if(document.getElementById("password").value.replace(/\s+/g,"")==="21012025"){
     document.getElementById("passwordPage").style.display="none";
-    showIntro();
+    startScene();
   }else{
-    error.innerText="Wrong password 😶 Try again";
+    document.getElementById("error").innerText="Wrong password";
   }
 }
 
-/* ---------- INTRO → CLOUD → PHOTOS ---------- */
-function showIntro(){
+function startScene(){
   const intro=document.getElementById("intro");
-  const cloud=document.getElementById("cloudOverlay");
+  const text=document.getElementById("heyText");
+  const fog=document.getElementById("fog");
   const gallery=document.getElementById("gallery");
 
   intro.style.display="flex";
+  gallery.style.display="flex";
+  loadPhoto();
 
-  // Text dissolves into cloud
   setTimeout(()=>{
-    document.getElementById("heyText").style.opacity="0";
-    cloud.style.opacity="1";
-    cloud.classList.add("cloudClear");
-  },3000);
+    text.classList.add("blast");
+  },2000);
 
-  // Photos start appearing gradually
   setTimeout(()=>{
     intro.style.display="none";
-    gallery.style.display="flex";
-    loadPhoto();
-    requestAnimationFrame(()=>gallery.classList.add("show"));
-  },6000);
-
-  // Cloud fully gone
-  setTimeout(()=>{
-    cloud.style.display="none";
-  },11000);
+    fog.classList.add("breakFog");
+  },2800);
 }
 
-/* ---------- GALLERY ---------- */
+/* PHOTOS */
 var photos=[
   {src:"1.jpg",text:"This moment means everything 💙"},
   {src:"2.jpg",text:"You make my world brighter ✨"},
@@ -258,21 +220,13 @@ var photos=[
   {src:"9.png",text:"You are my happiness 💙"},
   {src:"10.jpg",text:"This is just the beginning ✨"}
 ];
-
-var current=0;
-
+var i=0;
 function loadPhoto(){
-  document.getElementById("photo").src=photos[current].src;
-  document.getElementById("caption").innerText=photos[current].text;
+  document.getElementById("photo").src=photos[i].src;
+  document.getElementById("caption").innerText=photos[i].text;
 }
-
 function nextPhoto(){
-  current++;
-  if(current<photos.length){
-    loadPhoto();
-  }else{
-    alert("That was my story 💙");
-  }
+  i++; if(i<photos.length){loadPhoto();}
 }
 </script>
 
