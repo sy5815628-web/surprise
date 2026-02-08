@@ -15,7 +15,7 @@ body{
   overflow:hidden;
 }
 
-/* PASSWORD */
+/* ---------- PASSWORD ---------- */
 #passwordPage{
   height:100vh;
   display:flex;
@@ -30,26 +30,37 @@ body{
   padding:25px;
   border-radius:18px;
   text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,0.25);
 }
+
+.card h2{color:#0a3d62;}
 
 .card input{
   width:100%;
   padding:12px;
-  margin-top:10px;
   font-size:16px;
+  border-radius:10px;
+  border:1px solid #4aa3df;
+  text-align:center;
 }
 
 .card button{
   margin-top:15px;
   width:100%;
   padding:12px;
-  background:#1e90ff;
-  color:white;
   border:none;
   border-radius:25px;
+  background:#1e90ff;
+  color:white;
 }
 
-/* INTRO */
+.error{
+  margin-top:8px;
+  color:red;
+  font-size:14px;
+}
+
+/* ---------- INTRO ---------- */
 #intro{
   position:fixed;
   inset:0;
@@ -57,11 +68,11 @@ body{
   justify-content:center;
   align-items:center;
   background:#b3e5fc;
-  z-index:10;
+  z-index:5;
 }
 
-/* ORIGINAL BOX (hidden after split) */
 #textBox{
+  display:flex;
   font-size:2.4rem;
   font-weight:600;
   color:#0d47a1;
@@ -69,72 +80,97 @@ body{
   padding:20px 30px;
   border:2px solid #0d47a1;
   border-radius:18px;
-  display:flex;
+  animation:slideIn 1s ease forwards;
 }
 
-/* LETTERS */
 #textBox span{
   display:inline-block;
   transition:transform 1.2s ease, opacity 1.2s ease;
 }
 
-/* BOX PIECES */
-.piece{
-  position:absolute;
-  background:#e3f2fd;
-  border:2px solid #0d47a1;
-  border-radius:12px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  font-size:2.4rem;
-  font-weight:600;
-  color:#0d47a1;
+@keyframes slideIn{
+  from{transform:translateX(-120%);}
+  to{transform:translateX(0);}
 }
 
-/* CLOUD */
+/* ---------- BOX BLAST ---------- */
+.boxBlast{
+  animation:boxExplode 1s ease forwards;
+}
+
+@keyframes boxExplode{
+  0%{transform:scale(1);opacity:1;}
+  60%{transform:scale(1.5) rotate(8deg);opacity:0.7;}
+  100%{transform:scale(3) rotate(25deg);opacity:0;}
+}
+
+/* ---------- CLOUD ---------- */
 #cloud{
   position:fixed;
   inset:0;
   display:none;
-  background:linear-gradient(135deg,#020617,#0f172a,#020617);
-  z-index:5;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 45%),
+    radial-gradient(circle at 70% 50%, rgba(255,255,255,0.08), transparent 55%),
+    linear-gradient(135deg,#020617,#0f172a,#020617);
+  backdrop-filter:blur(14px);
+  z-index:4;
+  pointer-events:none;
 }
 
 .cloudClear{
-  animation:fadeCloud 8s ease forwards;
+  animation:clearCloud 9s ease forwards;
 }
 
-@keyframes fadeCloud{
-  to{opacity:0;}
+@keyframes clearCloud{
+  0%{opacity:1;}
+  40%{opacity:0.9;}
+  70%{opacity:0.5;}
+  100%{opacity:0;}
 }
 
-/* GALLERY */
+/* ---------- GALLERY ---------- */
 #gallery{
   position:fixed;
   inset:0;
   display:none;
   justify-content:center;
   align-items:center;
-  background:#90caf9;
+  background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
   z-index:1;
   opacity:0;
   transition:opacity 4s ease;
 }
+
 #gallery.show{opacity:1;}
 
 .photoBox{
-  background:white;
-  padding:15px;
-  border-radius:16px;
   width:90%;
-  max-width:350px;
+  max-width:360px;
+  background:#e3f2fd;
+  padding:15px;
+  border-radius:18px;
   text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
 }
 
 .photoBox img{
   width:100%;
-  border-radius:12px;
+  border-radius:14px;
+}
+
+.photoBox p{
+  margin-top:10px;
+  color:#0d47a1;
+}
+
+.photoBox button{
+  margin-top:12px;
+  padding:10px 25px;
+  border:none;
+  border-radius:25px;
+  background:#1976d2;
+  color:white;
 }
 </style>
 </head>
@@ -145,8 +181,9 @@ body{
 <div id="passwordPage">
   <div class="card">
     <h2>Enter Password 🔐</h2>
-    <input id="password">
-    <button onclick="go()">Enter</button>
+    <input id="password" type="tel" placeholder="DDMMYYYY">
+    <button onclick="checkPassword()">Enter</button>
+    <div id="error" class="error"></div>
   </div>
 </div>
 
@@ -155,6 +192,7 @@ body{
   <div id="textBox"></div>
 </div>
 
+<!-- CLOUD -->
 <div id="cloud"></div>
 
 <!-- GALLERY -->
@@ -167,88 +205,85 @@ body{
 </div>
 
 <script>
-function go(){
-  if(document.getElementById("password").value==="21012025"){
+/* ---------- PASSWORD ---------- */
+function checkPassword(){
+  const pass=document.getElementById("password").value.replace(/\s+/g,"");
+  if(pass==="21012025"){
     document.getElementById("passwordPage").style.display="none";
-    start();
+    startIntro();
+  }else{
+    document.getElementById("error").innerText="Wrong password 😶";
   }
 }
 
-function start(){
+/* ---------- INTRO + BLAST ---------- */
+function startIntro(){
   const intro=document.getElementById("intro");
   const textBox=document.getElementById("textBox");
+  const cloud=document.getElementById("cloud");
+  const gallery=document.getElementById("gallery");
+
   intro.style.display="flex";
+  textBox.innerHTML="";
 
   const text="Hey Cutie 💙";
-  textBox.innerHTML="";
-  [...text].forEach(l=>{
-    const s=document.createElement("span");
-    s.textContent=l;
-    textBox.appendChild(s);
+  [...text].forEach(letter=>{
+    const span=document.createElement("span");
+    span.textContent=letter;
+    textBox.appendChild(span);
   });
 
-  // LETTER BLAST
+  // LETTER + BOX BLAST
   setTimeout(()=>{
     document.querySelectorAll("#textBox span").forEach(span=>{
-      span.style.transform=`translate(${Math.random()*600-300}px,${Math.random()*600-300}px)`;
+      const x=(Math.random()*800)-400;
+      const y=(Math.random()*800)-400;
+      const r=(Math.random()*720)-360;
+      span.style.transform=`translate(${x}px,${y}px) rotate(${r}deg)`;
       span.style.opacity="0";
     });
+    textBox.classList.add("boxBlast");
+  },2500);
 
-    // BOX BREAK INTO 4 PIECES
-    splitBox();
-
-  },2000);
-
-  // CLOUD
+  // CLOUD FORMS
   setTimeout(()=>{
     intro.style.display="none";
-    document.getElementById("cloud").style.display="block";
-    document.getElementById("cloud").classList.add("cloudClear");
-  },3000);
+    cloud.style.display="block";
+    cloud.classList.add("cloudClear");
+  },3500);
 
-  // PHOTOS
+  // PHOTOS APPEAR DURING CLOUD CLEAR
   setTimeout(()=>{
-    document.getElementById("gallery").style.display="flex";
+    gallery.style.display="flex";
     loadPhoto();
-    document.getElementById("gallery").classList.add("show");
-  },4500);
+    requestAnimationFrame(()=>gallery.classList.add("show"));
+  },5000);
 }
 
-function splitBox(){
-  const box=document.getElementById("textBox");
-  const rect=box.getBoundingClientRect();
-  const intro=document.getElementById("intro");
-  box.style.visibility="hidden";
-
-  for(let i=0;i<4;i++){
-    const p=document.createElement("div");
-    p.className="piece";
-    p.style.width=rect.width/2+"px";
-    p.style.height=rect.height/2+"px";
-    p.style.left=rect.left+(i%2)*(rect.width/2)+"px";
-    p.style.top=rect.top+(i>1?rect.height/2:0)+"px";
-    p.innerText="Hey";
-    intro.appendChild(p);
-
-    setTimeout(()=>{
-      p.style.transform=`translate(${Math.random()*800-400}px,${Math.random()*800-400}px) rotate(30deg)`;
-      p.style.opacity="0";
-    },50);
-  }
-}
-
-/* PHOTOS */
+/* ---------- PHOTOS ---------- */
 const photos=[
-  "1.jpg","2.jpg","3.webp","4.jpg","5.jpg",
-  "6.jpg","7.jpg","8.jpg","9.png","10.jpg"
+  {src:"1.jpg",text:"This moment means everything 💙"},
+  {src:"2.jpg",text:"You make my world brighter ✨"},
+  {src:"3.webp",text:"My favorite smile 😊"},
+  {src:"4.jpg",text:"Every memory with you is special 💫"},
+  {src:"5.jpg",text:"I choose you 💙"},
+  {src:"6.jpg",text:"My peace, my home 🫶"},
+  {src:"7.jpg",text:"Forever feels right 💕"},
+  {src:"8.jpg",text:"Still smiling thinking of you 😍"},
+  {src:"9.png",text:"You are my happiness 💙"},
+  {src:"10.jpg",text:"This is just the beginning ✨"}
 ];
+
 let i=0;
+
 function loadPhoto(){
-  photo.src=photos[i];
-  caption.innerText="💙";
+  document.getElementById("photo").src=photos[i].src;
+  document.getElementById("caption").innerText=photos[i].text;
 }
+
 function nextPhoto(){
-  if(++i<photos.length)loadPhoto();
+  i++;
+  if(i<photos.length){loadPhoto();}
 }
 </script>
 
