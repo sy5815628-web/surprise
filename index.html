@@ -11,7 +11,6 @@
 body{
   height:100vh;
   font-family:Arial,sans-serif;
-  overflow:hidden;
   background:#87ceeb;
 }
 
@@ -21,9 +20,6 @@ body{
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#87ceeb;
-  z-index:5;
-  position:relative;
 }
 
 .card{
@@ -55,7 +51,6 @@ body{
   border-radius:25px;
   background:#1e90ff;
   color:white;
-  font-size:16px;
 }
 
 .error{margin-top:8px;color:red;font-size:14px;}
@@ -68,7 +63,7 @@ body{
   justify-content:center;
   align-items:center;
   background:#b3e5fc;
-  z-index:4;
+  z-index:10;
 }
 
 #text{
@@ -97,14 +92,15 @@ body{
 #cloud{
   position:fixed;
   inset:0;
+  display:none;              /* 🔥 KEY FIX */
   background:
     radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 45%),
     radial-gradient(circle at 70% 50%, rgba(255,255,255,0.08), transparent 55%),
     linear-gradient(135deg,#020617,#0f172a,#020617);
   backdrop-filter:blur(14px);
-  opacity:0;
-  z-index:3;
-  pointer-events:none; /* 🔥 FIXES INPUT ISSUE */
+  opacity:1;
+  z-index:5;
+  pointer-events:none;
 }
 
 .cloudClear{
@@ -122,7 +118,7 @@ body{
 #gallery{
   position:fixed;
   inset:0;
-  display:none;
+  display:none;              /* 🔥 KEY FIX */
   justify-content:center;
   align-items:center;
   background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
@@ -194,7 +190,6 @@ body{
 </div>
 
 <script>
-/* ---------- PASSWORD ---------- */
 function checkPassword(){
   const pass=document.getElementById("password").value.replace(/\s+/g,"");
   if(pass==="21012025"){
@@ -205,7 +200,6 @@ function checkPassword(){
   }
 }
 
-/* ---------- LETTER BLAST ---------- */
 function startIntro(){
   const intro=document.getElementById("intro");
   const textBox=document.getElementById("text");
@@ -216,14 +210,13 @@ function startIntro(){
 
   const text="Hey Cutie 💙";
   textBox.innerHTML="";
-
   [...text].forEach(letter=>{
     const span=document.createElement("span");
     span.textContent=letter;
     textBox.appendChild(span);
   });
 
-  // BLAST LETTERS
+  // BLAST
   setTimeout(()=>{
     document.querySelectorAll("#text span").forEach(span=>{
       const x=(Math.random()*800)-400;
@@ -234,14 +227,14 @@ function startIntro(){
     });
   },2500);
 
-  // DARK CLOUD FORMS
+  // CLOUD FORMS
   setTimeout(()=>{
     intro.style.display="none";
-    cloud.style.opacity="1";
+    cloud.style.display="block";
     cloud.classList.add("cloudClear");
   },3500);
 
-  // PHOTOS APPEAR DURING CLOUD CLEAR
+  // PHOTOS EMERGE
   setTimeout(()=>{
     gallery.style.display="flex";
     loadPhoto();
@@ -249,7 +242,7 @@ function startIntro(){
   },5000);
 }
 
-/* ---------- PHOTOS ---------- */
+/* PHOTOS */
 var photos=[
   {src:"1.jpg",text:"This moment means everything 💙"},
   {src:"2.jpg",text:"You make my world brighter ✨"},
@@ -264,15 +257,12 @@ var photos=[
 ];
 
 let i=0;
-
 function loadPhoto(){
   document.getElementById("photo").src=photos[i].src;
   document.getElementById("caption").innerText=photos[i].text;
 }
-
 function nextPhoto(){
-  i++;
-  if(i<photos.length){loadPhoto();}
+  i++; if(i<photos.length){loadPhoto();}
 }
 </script>
 
