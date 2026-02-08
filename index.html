@@ -66,6 +66,43 @@ button{
   color:red;
   font-size:14px;
 }
+  #gallery{
+  height:100vh;
+  width:100%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
+}
+
+.photo-box{
+  width:90%;
+  max-width:360px;
+  background:#e3f2fd;
+  padding:15px;
+  border-radius:18px;
+  text-align:center;
+}
+
+.photo-box img{
+  width:100%;
+  border-radius:14px;
+}
+
+.photo-box p{
+  margin-top:10px;
+  color:#0d47a1;
+  font-size:15px;
+}
+
+.photo-box button{
+  margin-top:15px;
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#1976d2;
+  color:white;
+}
 </style>
 </head>
 
@@ -89,6 +126,13 @@ button{
 
   <div id="error" class="error"></div>
 </div>
+<div id="gallery" style="display:none;">
+  <div class="photo-box">
+    <img id="photo" src="">
+    <p id="caption"></p>
+    <button onclick="nextPhoto()">Next 💙</button>
+  </div>
+</div>
 
 <script>
 function checkPassword(){
@@ -107,12 +151,10 @@ function checkPassword(){
 }
 
 function showHeyCutie(){
-  document.body.innerHTML = `
-    <div id="heyScreen">
-      <div id="heyText">Hey Cutie 💙</div>
-      <div id="cloud"></div>
-    </div>
-  `;
+ document.querySelector(".card").style.display = "none";
+document.getElementById("gallery").style.display = "flex";
+loadPhoto();
+
 
   const style = document.createElement("style");
   style.innerHTML = `
@@ -183,6 +225,35 @@ function showHeyCutie(){
       "<h2 style='color:#0d47a1;text-align:center;'>Next stage: Photos coming 💙</h2>";
   },7000);
 }
+  var photos = [
+  { src: "1.jpg", text: "This moment means everything 💙" },
+  { src: "2.jpg", text: "You make my world brighter ✨" },
+  { src: "3.webp", text: "My favorite smile 😊" },
+  { src: "4.jpg", text: "Every memory with you is special 💫" },
+  { src: "5.jpg", text: "I choose you 💙" },
+  { src: "6.jpg", text: "My peace, my home 🫶" },
+  { src: "7.jpg", text: "Forever feels right 💕" },
+  { src: "8.jpg", text: "Still smiling thinking of you 😍" },
+  { src: "9.png", text: "You are my happiness 💙" },
+  { src: "10.jpg", text: "This is just the beginning ✨" }
+];
+
+var current = 0;
+
+function loadPhoto(){
+  document.getElementById("photo").src = photos[current].src;
+  document.getElementById("caption").innerText = photos[current].text;
+}
+
+function nextPhoto(){
+  current++;
+  if(current < photos.length){
+    loadPhoto();
+  }else{
+    alert("That was my story 💙");
+  }
+}
+
 </script>
 
 
