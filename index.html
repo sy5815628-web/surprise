@@ -12,8 +12,8 @@ body{
   margin:0;
   height:100vh;
   font-family:Arial,sans-serif;
-  overflow:hidden;
   background:#87ceeb;
+  overflow:hidden;
 }
 
 /* ---------------- PASSWORD PAGE ---------------- */
@@ -77,7 +77,7 @@ body{
   display:none;
   justify-content:center;
   align-items:center;
-  z-index:2;
+  z-index:3;
 }
 
 #heyText{
@@ -88,21 +88,12 @@ body{
   border:2px solid #0d47a1;
   border-radius:18px;
   animation:slideIn 1s ease forwards;
+  transition:opacity 2s ease;
 }
 
-@keyframes clearFog{
-  0%{
-    opacity:1;
-    backdrop-filter:blur(12px);
-  }
-  70%{
-    opacity:0.8;
-    backdrop-filter:blur(8px);
-  }
-  100%{
-    opacity:0;
-    backdrop-filter:blur(0);
-  }
+@keyframes slideIn{
+  from{transform:translateX(-120%);}
+  to{transform:translateX(0);}
 }
 
 /* ---------------- FULL SCREEN CLOUD ---------------- */
@@ -114,19 +105,21 @@ body{
     radial-gradient(circle at 70% 40%, rgba(255,255,255,0.06), transparent 50%),
     radial-gradient(circle at 50% 70%, rgba(255,255,255,0.10), transparent 55%),
     linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(14px);
   opacity:0;
-  z-index:3;
+  z-index:2;
   pointer-events:none;
 }
 
 .cloudClear{
-  animation:clearFog 5s ease forwards;
+  animation:clearFog 8s ease forwards;
 }
 
 @keyframes clearFog{
-  0%{opacity:1; backdrop-filter:blur(8px);}
-  100%{opacity:0; backdrop-filter:blur(0);}
+  0%{opacity:1;}
+  40%{opacity:0.85;}
+  70%{opacity:0.5;}
+  100%{opacity:0;}
 }
 
 /* ---------------- GALLERY ---------------- */
@@ -138,6 +131,12 @@ body{
   justify-content:center;
   align-items:center;
   z-index:1;
+  opacity:0;
+  transition:opacity 4s ease;
+}
+
+#gallery.show{
+  opacity:1;
 }
 
 .photoBox{
@@ -175,7 +174,7 @@ body{
 
 <body>
 
-<!-- PASSWORD -->
+<!-- PASSWORD PAGE -->
 <div id="passwordPage">
   <div class="card">
     <h2>Enter Password 🔐</h2>
@@ -217,31 +216,34 @@ function checkPassword(){
   }
 }
 
-/* ---------- INTRO + CLOUD ---------- */
+/* ---------- INTRO → CLOUD → PHOTOS ---------- */
 function showIntro(){
-  const intro = document.getElementById("intro");
-  const cloud = document.getElementById("cloudOverlay");
+  const intro=document.getElementById("intro");
+  const cloud=document.getElementById("cloudOverlay");
+  const gallery=document.getElementById("gallery");
 
-  intro.style.display = "flex";
+  intro.style.display="flex";
 
-  // 1️⃣ Hey Cutie stays longer
+  // Text dissolves into cloud
   setTimeout(()=>{
-    document.getElementById("heyText").style.display = "none";
-
-    // 2️⃣ Cloud appears slowly
-    cloud.style.opacity = "1";
+    document.getElementById("heyText").style.opacity="0";
+    cloud.style.opacity="1";
     cloud.classList.add("cloudClear");
+  },3000);
 
-  }, 3000); // was 2000
-
-  // 3️⃣ Photos appear ONLY after cloud fully clears
+  // Photos start appearing gradually
   setTimeout(()=>{
-    intro.style.display = "none";
-    document.getElementById("gallery").style.display = "flex";
+    intro.style.display="none";
+    gallery.style.display="flex";
     loadPhoto();
-  }, 10000); // was 7000
-}
+    requestAnimationFrame(()=>gallery.classList.add("show"));
+  },6000);
 
+  // Cloud fully gone
+  setTimeout(()=>{
+    cloud.style.display="none";
+  },11000);
+}
 
 /* ---------- GALLERY ---------- */
 var photos=[
