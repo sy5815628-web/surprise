@@ -6,313 +6,208 @@
 <title>Private 💙</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box;}
 
 body{
   margin:0;
   height:100vh;
+  font-family:Arial,sans-serif;
+  background:#87ceeb;
+  overflow:hidden;
+}
+
+/* ---------- PASSWORD PAGE ---------- */
+#passwordPage{
+  height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:#87ceeb; /* sky blue */
-  font-family: Arial, sans-serif;
 }
 
 .card{
-  background:#e6f6ff;
   width:90%;
   max-width:350px;
+  background:#e6f6ff;
   padding:25px;
-  border-radius:16px;
+  border-radius:18px;
   text-align:center;
   box-shadow:0 8px 20px rgba(0,0,0,0.2);
 }
 
-h2{
-  color:#0a3d62;
-  margin-bottom:15px;
-}
+.card h2{color:#0a3d62;}
 
-input{
+.card input{
   width:100%;
   padding:12px;
+  margin-top:10px;
   font-size:16px;
   border-radius:10px;
   border:1px solid #4aa3df;
   text-align:center;
 }
 
-button{
+.card button{
   margin-top:15px;
   width:100%;
   padding:12px;
-  font-size:16px;
   border:none;
   border-radius:25px;
   background:#1e90ff;
   color:white;
+  font-size:16px;
 }
 
 .hint{
-  margin-top:10px;
+  margin-top:8px;
   font-size:13px;
   color:#0a3d62;
 }
 
 .error{
-  margin-top:10px;
-  color:red;
+  margin-top:8px;
   font-size:14px;
-}
-  #gallery{
-  height:100vh;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  background: linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
+  color:red;
 }
 
-.photo-box{
-  width:90%;
-  max-width:360px;
-  background:#e3f2fd;
-  padding:15px;
-  border-radius:18px;
-  text-align:center;
-}
-
-.photo-box img{
-  width:100%;
-  border-radius:14px;
-}
-
-.photo-box p{
-  margin-top:10px;
-  color:#0d47a1;
-  font-size:15px;
-}
-
-.photo-box button{
-  margin-top:15px;
-  padding:12px 25px;
-  border:none;
-  border-radius:25px;
-  background:#1976d2;
-  color:white;
-}
-  #intro{
+/* ---------- INTRO PAGE ---------- */
+#intro{
   position:fixed;
   inset:0;
-  background: linear-gradient(135deg,#b3e5fc,#81d4fa,#4fc3f7);
-  display:flex;
+  background:linear-gradient(135deg,#b3e5fc,#81d4fa,#4fc3f7);
+  display:none;
   justify-content:center;
   align-items:center;
-  overflow:hidden;
 }
 
 #heyText{
   font-size:2.2rem;
   color:#0d47a1;
-  font-weight:600;
+  background:#e3f2fd;
   padding:20px 30px;
   border:2px solid #0d47a1;
   border-radius:18px;
-  background:#e3f2fd;
-  position:absolute;
   animation:slideIn 1s ease forwards;
 }
 
 @keyframes slideIn{
-  from{ transform:translateX(-120%); }
-  to{ transform:translateX(0); }
+  from{transform:translateX(-120%);}
+  to{transform:translateX(0);}
 }
 
 #cloud{
   position:absolute;
   width:200px;
   height:120px;
-  background:#ffffff;
+  background:white;
   border-radius:60px;
   opacity:0;
 }
 
-.cloud-blast{
-  animation:cloudBlast 5s ease forwards;
+.cloudBlast{
+  animation:blast 5s ease forwards;
 }
 
-@keyframes cloudBlast{
-  0%{ transform:scale(0.3); opacity:0; }
-  20%{ transform:scale(1); opacity:0.9; }
-  100%{ transform:scale(2); opacity:0; }
+@keyframes blast{
+  0%{transform:scale(0.3);opacity:0;}
+  20%{transform:scale(1);opacity:0.9;}
+  100%{transform:scale(2.2);opacity:0;}
 }
 
+/* ---------- GALLERY ---------- */
+#gallery{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
+  display:none;
+  justify-content:center;
+  align-items:center;
+}
+
+.photoBox{
+  width:90%;
+  max-width:360px;
+  background:#e3f2fd;
+  padding:15px;
+  border-radius:18px;
+  text-align:center;
+  box-shadow:0 10px 25px rgba(0,0,0,0.25);
+}
+
+.photoBox img{
+  width:100%;
+  border-radius:14px;
+}
+
+.photoBox p{
+  margin-top:10px;
+  font-size:15px;
+  color:#0d47a1;
+}
+
+.photoBox button{
+  margin-top:15px;
+  padding:12px 25px;
+  border:none;
+  border-radius:25px;
+  background:#1976d2;
+  color:white;
+  font-size:15px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h2>Enter Password 🔐</h2>
-
- <input
-  type="tel"
-  id="password"
-  placeholder="DDMMYYYY"
->
-
-
-  <div class="hint">
-    Hint: the final day of chapter started 💙
+<!-- PASSWORD -->
+<div id="passwordPage">
+  <div class="card">
+    <h2>Enter Password 🔐</h2>
+    <input id="password" type="tel" placeholder="DDMMYYYY">
+    <div class="hint">Hint: the final day of chapter started 💙</div>
+    <button onclick="checkPassword()">Enter</button>
+    <div id="error" class="error"></div>
   </div>
-
-  <button onclick="checkPassword()">Enter</button>
-
-  <div id="error" class="error"></div>
 </div>
-<div id="gallery" style="display:none;">
-  <div class="photo-box">
-    <img id="photo" src="">
+
+<!-- INTRO -->
+<div id="intro">
+  <div id="heyText">Hey Cutie 💙</div>
+  <div id="cloud"></div>
+</div>
+
+<!-- GALLERY -->
+<div id="gallery">
+  <div class="photoBox">
+    <img id="photo">
     <p id="caption"></p>
     <button onclick="nextPhoto()">Next 💙</button>
   </div>
 </div>
 
 <script>
+/* ---------- PASSWORD ---------- */
 function checkPassword(){
-  var pass = document.getElementById("password").value;
+  let pass=document.getElementById("password").value.replace(/\s+/g,"");
+  let error=document.getElementById("error");
 
-  // REMOVE EVERYTHING except digits (mobile-safe)
-  pass = pass.replace(/\D/g, "");
-
-  var error = document.getElementById("error");
-
-  if(pass === "21012025"){
-    showHeyCutie();
+  if(pass==="21012025"){
+    document.getElementById("passwordPage").style.display="none";
+    showIntro();
   }else{
-    error.innerText = "Wrong password 😶 Try again";
-  }
-}
-<div id="intro" style="display:none;">
-  <div id="heyText">Hey Cutie 💙</div>
-  <div id="cloud"></div>
-</div>
-
-function showHeyCutie(){
- document.querySelector(".card").style.display = "none";
-document.getElementById("gallery").style.display = "flex";
-loadPhoto();
-
-
-  const style = document.createElement("style");
-  style.innerHTML = `
-    body{
-      margin:0;
-      height:100vh;
-      background:linear-gradient(135deg,#bbdefb,#90caf9,#64b5f6);
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      overflow:hidden;
-      font-family:'Segoe UI',sans-serif;
-    }
-
-    #heyScreen{
-      position:relative;
-      width:100%;
-      height:100%;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-    }
-
-   #heyText{
-  position:absolute;
-  left:-100%;
-  padding:18px 28px;
-  font-size:clamp(22px, 6vw, 32px); /* responsive size */
-  color:#0d47a1;
-  border:3px solid #0d47a1;
-  border-radius:20px;
-  background:rgba(255,255,255,0.9);
-  animation:slideIn 1.5s forwards;
-
-  white-space: nowrap;   /* 🔥 THIS FIXES THE ISSUE */
-  display: inline-flex;  /* keeps emoji aligned */
-  align-items: center;
-  gap: 6px;              /* space between text & heart */
-}
-
-    #cloud{
-      position:absolute;
-      width:250px;
-      height:120px;
-      background:#e3f2fd;
-      border-radius:60px;
-      opacity:0;
-    }
-
-    .cloudShow{
-      animation:cloudFade 5s forwards;
-    }
-
-    @keyframes cloudFade{
-      0%{ opacity:0.9; transform:scale(0.8); }
-      100%{ opacity:0; transform:scale(1.4); }
-    }
-  `;
-  document.head.appendChild(style);
-
-  setTimeout(()=>{
-    document.getElementById("heyText").style.display="none";
-    document.getElementById("cloud").classList.add("cloudShow");
-  },2000);
-
-  setTimeout(()=>{
-    document.body.innerHTML =
-      "<h2 style='color:#0d47a1;text-align:center;'>Next stage: Photos coming 💙</h2>";
-  },7000);
-}
-  var photos = [
-  { src: "1.jpg", text: "This moment means everything 💙" },
-  { src: "2.jpg", text: "You make my world brighter ✨" },
-  { src: "3.webp", text: "My favorite smile 😊" },
-  { src: "4.jpg", text: "Every memory with you is special 💫" },
-  { src: "5.jpg", text: "I choose you 💙" },
-  { src: "6.jpg", text: "My peace, my home 🫶" },
-  { src: "7.jpg", text: "Forever feels right 💕" },
-  { src: "8.jpg", text: "Still smiling thinking of you 😍" },
-  { src: "9.png", text: "You are my happiness 💙" },
-  { src: "10.jpg", text: "This is just the beginning ✨" }
-];
-
-var current = 0;
-
-function loadPhoto(){
-  document.getElementById("photo").src = photos[current].src;
-  document.getElementById("caption").innerText = photos[current].text;
-}
-
-function nextPhoto(){
-  current++;
-  if(current < photos.length){
-    loadPhoto();
-  }else{
-    alert("That was my story 💙");
+    error.innerText="Wrong password 😶 Try again";
   }
 }
 
+/* ---------- INTRO ---------- */
 function showIntro(){
-  const intro = document.getElementById("intro");
+  const intro=document.getElementById("intro");
+  const cloud=document.getElementById("cloud");
   intro.style.display="flex";
 
   setTimeout(()=>{
     document.getElementById("heyText").style.display="none";
-    const cloud = document.getElementById("cloud");
-    cloud.classList.add("cloud-blast");
     cloud.style.opacity="1";
+    cloud.classList.add("cloudBlast");
   },2000);
 
   setTimeout(()=>{
@@ -322,11 +217,36 @@ function showIntro(){
   },7000);
 }
 
+/* ---------- GALLERY ---------- */
+var photos=[
+  {src:"1.jpg",text:"This moment means everything 💙"},
+  {src:"2.jpg",text:"You make my world brighter ✨"},
+  {src:"3.webp",text:"My favorite smile 😊"},
+  {src:"4.jpg",text:"Every memory with you is special 💫"},
+  {src:"5.jpg",text:"I choose you 💙"},
+  {src:"6.jpg",text:"My peace, my home 🫶"},
+  {src:"7.jpg",text:"Forever feels right 💕"},
+  {src:"8.jpg",text:"Still smiling thinking of you 😍"},
+  {src:"9.png",text:"You are my happiness 💙"},
+  {src:"10.jpg",text:"This is just the beginning ✨"}
+];
 
+var current=0;
+
+function loadPhoto(){
+  document.getElementById("photo").src=photos[current].src;
+  document.getElementById("caption").innerText=photos[current].text;
+}
+
+function nextPhoto(){
+  current++;
+  if(current<photos.length){
+    loadPhoto();
+  }else{
+    alert("That was my story 💙");
+  }
+}
 </script>
-
-
-
 
 </body>
 </html>
